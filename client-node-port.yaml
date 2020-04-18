@@ -1,0 +1,29 @@
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: client-node-port 
+spec: 
+  # We are making a service of type 'NodePort'
+  type: NodePort 
+  # All the different types of ports that need to be opened up or mapped 
+  # in the target object. 
+  ports: 
+      # For Other Pods to reach this Pod
+      # the port that another Pod can access in order to get access to the 
+      # Pod (multi-client) running.
+    - port: 3050
+      # For communication between 'Service NodePort' and 'Pod' (multi-client)
+      # This the port that will be exposed to the NodePort so that it can route traffic
+      # this port is related to the container port inside 'client-pod.yml'
+      targetPort: 3000
+      # For accessing container from the outside world (the browser)
+      # only used in development
+      # This is the port we'll access (from the browser) when we want to test
+      # a container running inside this pod (multi-client app).
+      # if this number is not assigned, one will be randomly assigned.
+      # A port random number between 30000-32767
+      # node port is not used in production because then our users would have to access
+      # the app like this https://yourapp.com:33445
+      nodePort: 31515
+  selector: 
+    component: web

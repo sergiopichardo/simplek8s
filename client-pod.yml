@@ -1,0 +1,24 @@
+# 'apiVersion': v1 specifies the scope of the types of objects we can create
+# within a configuration file. 
+# So, because we are using the 'apiVersion: v1' we can create for example
+# an object of type 'componentStatus', 'configMap', 'EndPoints', 'Event', 'Namespace', etc.
+# Each API version defines a different set of 'objects' we can use
+apiVersion: v1  
+# the type of object we want to make in the cluster
+kind: Pod  
+metadata: 
+  name: client-pod
+  labels: 
+    # component is just an arbitrary name you assign to your label
+    # e.g. we could have named this label like this => 'tier' : 'web'
+    component: web 
+spec: 
+  containers: 
+    # 'name' is just a name we give to the container we are creating. 
+    # the name is used for logging or for referencing the Pod, or for 
+    # networking between containers running inside the single Pod.
+    - name: client 
+      image: stephengrider/multi-client 
+      ports: 
+        # the port we are exposing to the outside world
+        - containerPort: 3000 
